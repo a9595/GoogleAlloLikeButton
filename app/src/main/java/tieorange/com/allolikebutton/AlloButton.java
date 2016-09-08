@@ -22,7 +22,8 @@ public class AlloButton extends RelativeLayout {
   private AlloButton mImageButton;
   private SimpleFingerGestures mSwipeListener = new SimpleFingerGestures();
   private VerticalSeekBar mVerticalSeekBar;
-  private TextView mProgressText;
+  private TextView mPrivateYawn;
+  private TextView mPublicYawn;
 
   public AlloButton(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -36,20 +37,23 @@ public class AlloButton extends RelativeLayout {
 
   private void init(Context context) {
     mRootView = inflate(context, R.layout.allo_button_layout, this);
-    mImageButton = (AlloButton) findViewById(R.id.imageButton);
-    mVerticalSeekBar = (VerticalSeekBar) findViewById(R.id.vertical_Seekbar);
-    mProgressText = (TextView) findViewById(R.id.vertical_sb_progresstext);
-    mSwipeListener.setOnFingerGestureListener(getSwipeListener());
+    //mImageButton = (AlloButton) findViewById(R.id.imageButton);
+    //mSwipeListener.setOnFingerGestureListener(getSwipeListener());
 
-    initButton();
+    //initButton();
+
+    mVerticalSeekBar = (VerticalSeekBar) findViewById(R.id.vertical_Seekbar);
+    mPrivateYawn = (TextView) findViewById(R.id.privateYawn);
+    mPublicYawn = (TextView) findViewById(R.id.publicYawn);
     initSeekBar();
   }
 
   private void initSeekBar() {
     mVerticalSeekBar.setProgress(0);
-    final int progressStep = 90;
-    mVerticalSeekBar.incrementProgressBy(progressStep);
-    mVerticalSeekBar.setMax(100);
+    //final int progressStep = 90;
+    //mVerticalSeekBar.incrementProgressBy(progressStep);
+    final int seekBarMax = 100;
+    mVerticalSeekBar.setMax(seekBarMax);
 
     final Drawable drawableTransparent = ContextCompat.getDrawable(getContext(), android.R.drawable.screen_background_light_transparent);
     final Drawable drawableNormal = ContextCompat.getDrawable(getContext(), R.drawable.red_scrubber_progress);
@@ -61,17 +65,22 @@ public class AlloButton extends RelativeLayout {
         progress = progress * progressStep;
         */
 
-        final int step2 = 50;
+        final int step2 = 10;
         int stepSize = step2;
 
         progress = (progress / stepSize) * stepSize;
         seekBar.setProgress(progress);
-        mProgressText.setText(progress + "");
+        //mPrivateYawn.setText(progress + "");
 
-        if (progress == step2) {
+        if (progress >= seekBarMax) {
+          mPublicYawn.setVisibility(VISIBLE);
+        } else if (progress >= seekBarMax / 2) {
           mVerticalSeekBar.setProgressDrawable(drawableNormal);
+          mPrivateYawn.setVisibility(VISIBLE);
         } else if (progress == 0) {
           mVerticalSeekBar.setProgressDrawable(drawableTransparent);
+          mPublicYawn.setVisibility(GONE);
+          mPrivateYawn.setVisibility(GONE);
         }
       }
 

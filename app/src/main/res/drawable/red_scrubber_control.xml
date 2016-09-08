@@ -7,8 +7,8 @@
     <item android:drawable="@drawable/red_scrubber_control_normal_holo"/>-->
 
 
-  <item android:drawable="@drawable/ic_volume_up" android:state_enabled="false"/>
-  <item android:drawable="@drawable/ic_volume_up" android:state_pressed="true"/>
-  <item android:drawable="@drawable/ic_volume_up" android:state_selected="true"/>
-  <item android:drawable="@drawable/ic_volume_up"/>
+  <item android:drawable="@drawable/fab_layerlist" android:state_enabled="false"/>
+  <item android:drawable="@drawable/fab_layerlist" android:state_pressed="true"/>
+  <item android:drawable="@drawable/fab_layerlist" android:state_selected="true"/>
+  <item android:drawable="@drawable/fab_layerlist"/>
 </selector>

@@ -1,7 +1,9 @@
 package tieorange.com.allolikebutton;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -48,17 +50,29 @@ public class AlloButton extends RelativeLayout {
     final int progressStep = 90;
     mVerticalSeekBar.incrementProgressBy(progressStep);
     mVerticalSeekBar.setMax(100);
+
+    final Drawable drawableTransparent = ContextCompat.getDrawable(getContext(), android.R.drawable.screen_background_light_transparent);
+    final Drawable drawableNormal = ContextCompat.getDrawable(getContext(), R.drawable.red_scrubber_progress);
+    mVerticalSeekBar.setProgressDrawable(drawableTransparent);
+
     mVerticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
       @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         /*progress = progress / progressStep;
         progress = progress * progressStep;
         */
 
-        int stepSize = 50;
+        final int step2 = 50;
+        int stepSize = step2;
 
-        progress = (progress/stepSize)*stepSize;
+        progress = (progress / stepSize) * stepSize;
         seekBar.setProgress(progress);
         mProgressText.setText(progress + "");
+
+        if (progress == step2) {
+          mVerticalSeekBar.setProgressDrawable(drawableNormal);
+        } else if (progress == 0) {
+          mVerticalSeekBar.setProgressDrawable(drawableTransparent);
+        }
       }
 
       @Override public void onStartTrackingTouch(SeekBar seekBar) {

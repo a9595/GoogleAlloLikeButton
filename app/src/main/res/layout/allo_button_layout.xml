@@ -4,18 +4,13 @@
     android:layout_height="wrap_content"
     >
 
-  <ImageView
-      android:id="@+id/imageButton"
-      android:layout_width="100dp"
-      android:layout_height="100dp"
-      android:src="@drawable/ic_volume_up"
-      />
 
   <tieorange.com.allolikebutton.VerticalSeekBar
       android:id="@+id/vertical_Seekbar"
-      android:layout_width="wrap_content"
+      android:layout_width="30dp"
       android:layout_height="150dp"
-      android:layout_below="@+id/imageButton"
+      android:progressDrawable="@drawable/red_scrubber_progress"
+      android:thumb="@drawable/red_scrubber_control"
       />
 
   <TextView

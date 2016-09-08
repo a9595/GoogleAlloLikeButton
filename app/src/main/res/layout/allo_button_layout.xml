@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+  <ImageView
+      android:id="@+id/imageButton"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:src="@drawable/ic_volume_up"
+      />
+
+  <tieorange.com.allolikebutton.VerticalSeekBar
+      android:id="@+id/vertical_Seekbar"
+      android:layout_width="wrap_content"
+      android:layout_height="150dp"
+      android:layout_below="@+id/imageButton"
+      />
+
+  <TextView
+      android:id="@+id/vertical_sb_progresstext"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/vertical_Seekbar"
+      android:gravity="center"
+      />
+</RelativeLayout>

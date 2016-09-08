@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">AlloLikeButton</string>
+  <string name="action_settings">Settings</string>
+  <string name="valueSelector_label">valueLabel</string>
+</resources>

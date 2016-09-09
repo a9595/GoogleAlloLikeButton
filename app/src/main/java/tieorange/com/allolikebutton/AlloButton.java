@@ -1,6 +1,7 @@
 package tieorange.com.allolikebutton;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import in.championswimmer.sfg.lib.SimpleFingerGestures;
 
 import static android.graphics.Typeface.BOLD;
-import static android.graphics.Typeface.ITALIC;
 
 /**
  * Created by tieorange on 08/09/16.
@@ -97,9 +97,9 @@ public class AlloButton extends RelativeLayout {
         // bold
         if (progress >= startRange && progress <= endRange) {
           textView.setTypeface(textView.getTypeface(), BOLD);
-        } // normal // TODO: 09/09/16
+        } // normal
         if (progress < startRange || progress > endRange) {
-          textView.setTypeface(textView.getTypeface(), ITALIC);
+          textView.setTypeface(Typeface.DEFAULT);
         }
       }
 

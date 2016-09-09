@@ -53,6 +53,7 @@ public class AlloButton extends RelativeLayout {
     //final int progressStep = 90;
     //mVerticalSeekBar.incrementProgressBy(progressStep);
     final int seekBarMax = 100;
+    final int[] stepSize = { 10 };
     mVerticalSeekBar.setMax(seekBarMax);
 
     final Drawable drawableTransparent = ContextCompat.getDrawable(getContext(), android.R.drawable.screen_background_light_transparent);
@@ -60,17 +61,23 @@ public class AlloButton extends RelativeLayout {
     mVerticalSeekBar.setProgressDrawable(drawableTransparent);
 
     mVerticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+      private int mProgressAtStartTracking;
+      private final int SENSITIVITY = 3;
+
       @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         /*progress = progress / progressStep;
         progress = progress * progressStep;
         */
 
-        final int step2 = 10;
-        int stepSize = step2;
-
-        progress = (progress / stepSize) * stepSize;
+        progress = (progress / stepSize[0]) * stepSize[0];
         seekBar.setProgress(progress);
         //mPrivateYawn.setText(progress + "");
+
+        if (progress >= stepSize[0]) {
+          stepSize[0] = 1;
+        } else if (progress < stepSize[0]) {
+          stepSize[0] = 10;
+        }
 
         if (progress >= seekBarMax) {
           mPublicYawn.setVisibility(VISIBLE);
@@ -85,11 +92,13 @@ public class AlloButton extends RelativeLayout {
       }
 
       @Override public void onStartTrackingTouch(SeekBar seekBar) {
-
+        mProgressAtStartTracking = seekBar.getProgress();
       }
 
       @Override public void onStopTrackingTouch(SeekBar seekBar) {
-
+        if (Math.abs(mProgressAtStartTracking - seekBar.getProgress()) <= SENSITIVITY) {
+          Log.d(TAG, "onStopTrackingTouch() called with: seekBar = [" + seekBar + "]");
+        }
       }
     });
   }

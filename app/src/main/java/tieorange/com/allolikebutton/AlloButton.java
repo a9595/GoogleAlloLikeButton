@@ -59,9 +59,12 @@ public class AlloButton extends RelativeLayout {
     final int firstStepSnapper = 10;
     final int[] stepSize = { firstStepSnapper };
     final int privateYawnProgress = seekBarMax / 2;
-    final int rangeStepYawn = 10;
+    final int publicYawnProgress = seekBarMax;
+    final int rangeStepYawn = 20;
     final int privateYawnStartRange = privateYawnProgress - rangeStepYawn;
     final int privateYawnEndRange = privateYawnProgress + rangeStepYawn;
+    final int publicYawnStartRange = publicYawnProgress - rangeStepYawn;
+    final int publicYawnEndRange = publicYawnProgress + rangeStepYawn;
 
     mVerticalSeekBar.setMax(seekBarMax);
 
@@ -80,7 +83,8 @@ public class AlloButton extends RelativeLayout {
 
         snapThumb(progress, step);
         showHideBorder(progress);
-        privateYawnBold(progress);
+        privateYawnBold(progress, privateYawnStartRange, privateYawnEndRange, mPrivateYawn);
+        privateYawnBold(progress, publicYawnStartRange, publicYawnEndRange, mPublicYawn);
       }
 
       private int initStep(SeekBar seekBar, int progress, int step) {
@@ -89,13 +93,13 @@ public class AlloButton extends RelativeLayout {
         return progress;
       }
 
-      private void privateYawnBold(int progress) {
-        // bold PRIVATE
-        if (progress >= privateYawnStartRange && progress <= privateYawnEndRange) {
-          mPrivateYawn.setTypeface(mPrivateYawn.getTypeface(), BOLD);
-        }
-        if (progress < privateYawnStartRange || progress > privateYawnEndRange) {
-          mPrivateYawn.setTypeface(mPrivateYawn.getTypeface(), ITALIC);
+      private void privateYawnBold(int progress, int startRange, int endRange, TextView textView) {
+        // bold
+        if (progress >= startRange && progress <= endRange) {
+          textView.setTypeface(textView.getTypeface(), BOLD);
+        } // normal // TODO: 09/09/16
+        if (progress < startRange || progress > endRange) {
+          textView.setTypeface(textView.getTypeface(), ITALIC);
         }
       }
 
@@ -121,12 +125,14 @@ public class AlloButton extends RelativeLayout {
       }
 
       @Override public void onStartTrackingTouch(SeekBar seekBar) {
+        Log.d(TAG, "onStartTrackingTouch() called with: seekBar = [" + seekBar + "]");
         mProgressAtStartTracking = seekBar.getProgress();
       }
 
       @Override public void onStopTrackingTouch(SeekBar seekBar) {
+        Log.d(TAG, "onStopTrackingTouch() called with: seekBar = [" + seekBar + "]");
         if (Math.abs(mProgressAtStartTracking - seekBar.getProgress()) <= SENSITIVITY) {
-          Log.d(TAG, "onStopTrackingTouch() called with: seekBar = [" + seekBar + "]");
+          Log.d(TAG, "MATH onStopTrackingTouch() called with: seekBar = [" + seekBar + "]");
         }
       }
     });

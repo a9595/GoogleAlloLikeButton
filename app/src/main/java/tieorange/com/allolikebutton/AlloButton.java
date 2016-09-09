@@ -12,6 +12,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import in.championswimmer.sfg.lib.SimpleFingerGestures;
 
+import static android.graphics.Typeface.BOLD;
+import static android.graphics.Typeface.NORMAL;
+
 /**
  * Created by tieorange on 08/09/16.
  */
@@ -53,7 +56,13 @@ public class AlloButton extends RelativeLayout {
     //final int progressStep = 90;
     //mVerticalSeekBar.incrementProgressBy(progressStep);
     final int seekBarMax = 100;
-    final int[] stepSize = { 10 };
+    final int firstStepSnapper = 10;
+    final int[] stepSize = { firstStepSnapper };
+    final int privateYawnProgress = seekBarMax / 2;
+    final int rangeStepYawn = 10;
+    final int privateYawnStartRange = privateYawnProgress - rangeStepYawn;
+    final int privateYawnEndRange = privateYawnProgress + rangeStepYawn;
+
     mVerticalSeekBar.setMax(seekBarMax);
 
     final Drawable drawableTransparent = ContextCompat.getDrawable(getContext(), android.R.drawable.screen_background_light_transparent);
@@ -62,32 +71,40 @@ public class AlloButton extends RelativeLayout {
 
     mVerticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
       private int mProgressAtStartTracking;
-      private final int SENSITIVITY = 3;
+      private final int SENSITIVITY = 10;
 
       @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         /*progress = progress / progressStep;
         progress = progress * progressStep;
         */
 
-        progress = (progress / stepSize[0]) * stepSize[0];
+        int step = stepSize[0];
+        progress = (progress / step) * step; // step
         seekBar.setProgress(progress);
         //mPrivateYawn.setText(progress + "");
 
-        if (progress >= stepSize[0]) {
+        if (progress >= step) {
           stepSize[0] = 1;
-        } else if (progress < stepSize[0]) {
-          stepSize[0] = 10;
+        } else if (progress < step) {
+          stepSize[0] = firstStepSnapper;
         }
 
-        if (progress >= seekBarMax) {
-          mPublicYawn.setVisibility(VISIBLE);
-        } else if (progress >= seekBarMax / 2) {
+        //show border background:
+        if (progress >= firstStepSnapper) {
           mVerticalSeekBar.setProgressDrawable(drawableNormal);
           mPrivateYawn.setVisibility(VISIBLE);
-        } else if (progress == 0) {
+          mPublicYawn.setVisibility(VISIBLE);
+        } else if (progress < firstStepSnapper) { // hide border
           mVerticalSeekBar.setProgressDrawable(drawableTransparent);
-          mPublicYawn.setVisibility(GONE);
           mPrivateYawn.setVisibility(GONE);
+          mPublicYawn.setVisibility(GONE);
+        }
+
+        // bold PRIVATE
+        if (progress >= privateYawnStartRange && progress <= privateYawnEndRange) {
+          mPrivateYawn.setTypeface(mPrivateYawn.getTypeface(), BOLD);
+        } else if (progress < privateYawnStartRange || progress > privateYawnEndRange) {
+          mPrivateYawn.setTypeface(mPrivateYawn.getTypeface(), NORMAL);
         }
       }
 

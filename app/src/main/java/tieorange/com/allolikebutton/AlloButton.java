@@ -13,7 +13,7 @@ import android.widget.TextView;
 import in.championswimmer.sfg.lib.SimpleFingerGestures;
 
 import static android.graphics.Typeface.BOLD;
-import static android.graphics.Typeface.NORMAL;
+import static android.graphics.Typeface.ITALIC;
 
 /**
  * Created by tieorange on 08/09/16.
@@ -74,21 +74,40 @@ public class AlloButton extends RelativeLayout {
       private final int SENSITIVITY = 10;
 
       @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        /*progress = progress / progressStep;
-        progress = progress * progressStep;
-        */
 
         int step = stepSize[0];
+        progress = initStep(seekBar, progress, step);
+
+        snapThumb(progress, step);
+        showHideBorder(progress);
+        privateYawnBold(progress);
+      }
+
+      private int initStep(SeekBar seekBar, int progress, int step) {
         progress = (progress / step) * step; // step
         seekBar.setProgress(progress);
-        //mPrivateYawn.setText(progress + "");
+        return progress;
+      }
 
+      private void privateYawnBold(int progress) {
+        // bold PRIVATE
+        if (progress >= privateYawnStartRange && progress <= privateYawnEndRange) {
+          mPrivateYawn.setTypeface(mPrivateYawn.getTypeface(), BOLD);
+        }
+        if (progress < privateYawnStartRange || progress > privateYawnEndRange) {
+          mPrivateYawn.setTypeface(mPrivateYawn.getTypeface(), ITALIC);
+        }
+      }
+
+      private void snapThumb(int progress, int step) {
         if (progress >= step) {
           stepSize[0] = 1;
         } else if (progress < step) {
           stepSize[0] = firstStepSnapper;
         }
+      }
 
+      private void showHideBorder(int progress) {
         //show border background:
         if (progress >= firstStepSnapper) {
           mVerticalSeekBar.setProgressDrawable(drawableNormal);
@@ -98,13 +117,6 @@ public class AlloButton extends RelativeLayout {
           mVerticalSeekBar.setProgressDrawable(drawableTransparent);
           mPrivateYawn.setVisibility(GONE);
           mPublicYawn.setVisibility(GONE);
-        }
-
-        // bold PRIVATE
-        if (progress >= privateYawnStartRange && progress <= privateYawnEndRange) {
-          mPrivateYawn.setTypeface(mPrivateYawn.getTypeface(), BOLD);
-        } else if (progress < privateYawnStartRange || progress > privateYawnEndRange) {
-          mPrivateYawn.setTypeface(mPrivateYawn.getTypeface(), NORMAL);
         }
       }
 

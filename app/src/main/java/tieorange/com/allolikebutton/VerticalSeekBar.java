@@ -12,6 +12,8 @@ import android.widget.SeekBar;
  */
 
 public class VerticalSeekBar extends SeekBar {
+  private static final String TAG = VerticalSeekBar.class.getCanonicalName();
+  //http://stackoverflow.com/questions/9787906/android-seekbar-solution -- react only on finger move. not tapping
 
   public VerticalSeekBar(Context context) {
     super(context);
@@ -57,6 +59,7 @@ public class VerticalSeekBar extends SeekBar {
         setProgress(i);
         Log.i("Progress",getProgress()+"");
         onSizeChanged(getWidth(), getHeight(), 0, 0);
+        Log.d(TAG, "onTouchEvent: ACTION_UP");
         break;
 
       case MotionEvent.ACTION_CANCEL:
